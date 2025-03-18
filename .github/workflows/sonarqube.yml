@@ -1,0 +1,20 @@
+name: SonarQube Analysis
+on:
+  push:
+    branches: [main, dev, production]
+  pull_request:
+    branches: [main, dev, test]
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarqube:
+    name: SonarQube Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup SonarQube
+        run: |
+          curl -sS https://sonarcloud.io/static/cdn/sonar-scanner-cli-4.6.2.2472-linux.zip -o sonar-scanner.zip
+          unzip sonar-scanner.zip
+          ./sonar-scanner-4.6.2.2472-linux/bin/sonar-scanner
